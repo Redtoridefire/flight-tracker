@@ -2,17 +2,31 @@
 
 A Next.js airfare comparison and price-prediction app inspired by Hopper. It searches multiple fare-provider adapters, normalizes results into one comparable shape, ranks the best value, and produces a buy/watch/wait recommendation with an AI-ready explanation layer.
 
+The repo also includes a Streamlit Python GUI for running a simple local browser app without starting the Next.js stack.
+
 ## What works now
 
 - Usable fare search UI for origin, destination, dates, cabin, traveler count, and nonstop preference
 - `/api/search` endpoint that validates searches and returns ranked offers
+- Streamlit local GUI in `streamlit_app.py`
 - Provider adapter boundaries for Amadeus, Duffel, Kiwi/Tequila, Skyscanner-style APIs, and demo data
 - Cross-provider value scoring using price, duration, stops, baggage, refundability, and provider consensus
 - Transparent prediction model using current prices, modeled historical baseline, volatility, and days until departure
 - Optional OpenAI explanation when `OPENAI_API_KEY` is configured
 - SQL schema for storing fare searches and historical fare observations
 
-## Getting started
+## Run the Streamlit GUI
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+Streamlit will print a local URL, usually `http://localhost:8501`. Open that in your browser and search a route. This version uses demo fares so it works immediately.
+
+## Run the Next.js app
 
 ```bash
 npm install
@@ -39,6 +53,7 @@ SKYSCANNER_API_KEY=
 
 - `app/page.tsx` - interactive search and results interface
 - `app/api/search/route.ts` - fare search API endpoint
+- `streamlit_app.py` - Python Streamlit local GUI
 - `lib/fares` - normalized fare types, provider adapters, ranking, and orchestration
 - `lib/prediction` - buy/watch/wait model and prediction types
 - `lib/ai` - OpenAI-backed recommendation explanation with deterministic fallback
@@ -52,6 +67,7 @@ SKYSCANNER_API_KEY=
 3. Schedule repeated fare checks for saved searches so predictions learn from real observations.
 4. Train or tune route-specific models once enough historical observations exist.
 5. Add user accounts, saved watches, and alerts for price drops or confidence changes.
+6. Decide whether Streamlit remains the fast local tool or becomes an admin/testing dashboard beside the Next.js app.
 
 ## Accuracy note
 
