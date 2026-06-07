@@ -181,7 +181,7 @@ def explain(prediction: dict[str, object], ranked: pd.DataFrame) -> str:
     return f"I would {action}. The best fare is ${best}, compared with an expected range of ${low}-${high}. Confidence is {confidence}%, and the strongest signal is: {rationale}"
 
 
-st.set_page_config(page_title="Flight Price Scout", page_icon="✈️", layout="wide")
+st.set_page_config(page_title="Flight Price Scout", page_icon=":airplane:", layout="wide")
 st.title("Flight Price Scout")
 st.caption("A local Streamlit GUI for comparing fares and estimating whether to buy, watch, or wait.")
 
