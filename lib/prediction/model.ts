@@ -30,10 +30,26 @@ function inferHistoricalBaseline(input: PredictionInput) {
 }
 
 export function predictPurchaseTiming(input: PredictionInput): PricePrediction {
+  const daysOut = daysUntilDeparture(input.search);
+
+  if (!input.rankedOffers.length) {
+    return {
+      recommendation: "watch",
+      confidence: 0,
+      expectedLow: 0,
+      expectedHigh: 0,
+      currentMedian: 0,
+      bestPrice: 0,
+      volatility: 0,
+      daysUntilDeparture: daysOut,
+      estimatedChangePercent: 0,
+      rationale: ["No provider returned fare offers for this search yet."],
+    };
+  }
+
   const prices = input.rankedOffers.map((offer) => offer.price);
   const currentMedian = Math.round(median(prices));
   const bestPrice = Math.min(...prices);
-  const daysOut = daysUntilDeparture(input.search);
   const baseline = inferHistoricalBaseline(input);
   const expectedLow = Math.round(percentile(baseline, 20));
   const expectedHigh = Math.round(percentile(baseline, 80));
